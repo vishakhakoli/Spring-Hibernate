@@ -1,0 +1,31 @@
+# ===========================
+# Eclipse-specific ignores
+# ===========================
+.project
+.classpath
+.settings/
+.apt_generated/
+.factorypath
+.jee-generated/
+.metadata/
+bin/
+
+# ===========================
+# Maven-specific ignores
+# ===========================
+target/
+log/
+*.log
+
+# ===========================
+# OS-specific ignores
+# ===========================
+.DS_Store
+Thumbs.db
+
+# ===========================
+# IntelliJ (optional if used)
+# ===========================
+.idea/
+*.iml
+out/
