@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
+      http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <tx:annotation-driven />
+
+  <bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
+      <property name="url" value="jdbc:oracle:thin:@//10.165.187.28:1532/orcl12c"/>
+      <property name="username" value="CRS_GOLD"/>
+      <property name="password" value="CRS_GOLD"/>
+  </bean>
+
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+      <property name="dataSource" ref="ds" />
+      <property name="hibernateProperties">
+          <props>
+              <prop key="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</prop>
+              <prop key="hibernate.show_sql">false</prop>
+              <prop key="hibernate.format_sql">true</prop>
+              <prop key="hibernate.hbm2ddl.auto">update</prop>
+          </props>
+      </property>
+      <property name="annotatedClasses">
+          <list>
+              <value>com.spring.orm.entities.Student</value>
+          </list>
+      </property>
+  </bean>
+
+  <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+      <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+
+  <bean id="studentDao" class="com.spring.orm.dao.StudentDaoImpl">
+      <property name="hibernateTemplate" ref="hibernateTemplate" />
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory" />
+  </bean>
+</beans>
